@@ -10,6 +10,7 @@ import ac.grim.grimac.manager.SpectateManager;
 import ac.grim.grimac.manager.TickManager;
 import ac.grim.grimac.manager.config.BaseConfigManager;
 import ac.grim.grimac.manager.init.Initable;
+import ac.grim.grimac.manager.violationdatabase.ViolationDatabaseManager;
 import ac.grim.grimac.platform.api.Platform;
 import ac.grim.grimac.platform.api.PlatformLoader;
 import ac.grim.grimac.platform.api.PlatformServer;
@@ -46,6 +47,7 @@ public final class GrimAPI {
     private final TickManager tickManager;
     private final EventBus eventBus;
     private final GrimExternalAPI externalAPI;
+    private ViolationDatabaseManager violationDatabaseManager;
     private PlatformLoader loader;
     @Getter
     private InitManager initManager;
@@ -78,6 +80,7 @@ public final class GrimAPI {
 
     public void load(PlatformLoader platformLoader, Initable... platformSpecificInitables) {
         this.loader = platformLoader;
+        this.violationDatabaseManager = new ViolationDatabaseManager(getGrimPlugin());
         this.initManager = new InitManager(loader.getPacketEvents(), loader::getCommandManager, platformSpecificInitables);
         this.initManager.load();
         this.initialized = true;
